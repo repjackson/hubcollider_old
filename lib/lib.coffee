@@ -4,11 +4,16 @@
 @Conversations = new Meteor.Collection 'conversations'
 @Events = new Meteor.Collection 'events'
 @Eventtags = new Meteor.Collection 'event_tags'
+@Docs = new Meteor.Collection 'docs'
 
 
 Messages.helpers
     author: -> Meteor.users.findOne @authorId
     recipient: -> Meteor.users.findOne @recipientId
+    when: -> moment(@timestamp).fromNow()
+
+Docs.helpers
+    author: -> Meteor.users.findOne @authorId
     when: -> moment(@timestamp).fromNow()
 
 
@@ -28,6 +33,32 @@ Events.helpers
 
 
 Meteor.methods
+    delete_doc: (id)->
+        Docs.remove id
+
+    vote_up: (id)->
+        doc = Docs.findOne id
+        if Meteor.userId() in doc.up_voters #undo upvote
+            Docs.update id,
+                $pull: up_voters: Meteor.userId()
+                $inc: points: -1
+            Meteor.users.update doc.authorId, $inc: points: -1
+
+        else if Meteor.userId() in doc.down_voters #switch downvote to upvote
+            Docs.update id,
+                $pull: down_voters: Meteor.userId()
+                $addToSet: up_voters: Meteor.userId()
+                $inc: points: 2
+            Meteor.users.update doc.authorId, $inc: points: 2
+
+        else #clean upvote
+            Docs.update id,
+                $addToSet: up_voters: Meteor.userId()
+                $inc: points: 1
+            Meteor.users.update doc.authorId, $inc: points: 1
+        # Meteor.call 'generatePersonalCloud', Meteor.userId()
+
+
     create_conversation: (tags, otherUserId)->
         existingConversation = Conversations.findOne tags: tags
         if existingConversation then return
@@ -42,6 +73,21 @@ Meteor.methods
             tags: tags
             hostId: Meteor.userId()
             attendeeIds: [Meteor.userId()]
+
+    add_win: (text)->
+        Docs.insert
+            tags: ['impact hub', 'boulder', 'win']
+            text: text
+            authorId: Meteor.userId()
+
+
+    add_challenge: (text)->
+        Docs.insert
+            tags: ['impact hub', 'boulder', 'challenge']
+            text: text
+            authorId: Meteor.userId()
+
+
 
     add_event_message: (text, eventId)->
         Messages.insert
@@ -195,6 +241,11 @@ FlowRouter.route '/events', action: (params) ->
         nav: 'nav'
         cloud: 'event_cloud'
         main: 'events'
+
+FlowRouter.route '/wins', action: (params) ->
+    BlazeLayout.render 'layout',
+        nav: 'nav'
+        main: 'wins_challenges'
 
 # FlowRouter.route '/editConversation/:docId', action: (params) ->
 #     BlazeLayout.render 'layout',

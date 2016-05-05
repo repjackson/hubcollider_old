@@ -1,8 +1,8 @@
 template(name='nav')
     .ui.inverted.borderless.menu
-        // .ui.header.item
-        //     i.unlink.icon
-        //     |Hub Collider
+        .ui.header.item
+            // i.unlink.icon
+            |Hub Collider
         a.item(href='/' class="{{isActivePath '/'}}")
             i.users.icon
             |People
@@ -12,6 +12,9 @@ template(name='nav')
         a.item(href='/events' class="{{isActivePath '/events'}}")
             i.calendar.icon
             | Events
+        a.item(href='/wins' class="{{isActivePath '/wins'}}")
+            i.thumbs.up.icon
+            | Wins/Challenges
         .right.menu
             if currentUser
                 a.item(href='/profile' class="{{isActivePath '/profile'}}")

@@ -7,6 +7,11 @@ Conversations.allow
     remove: (userId, doc)-> doc.authorId is userId
 
 
+Meteor.publish 'wins', ->
+    Docs.find tags: $in: ['impact hub', 'boulder', 'win']
+
+Meteor.publish 'challenges', ->
+    Docs.find tags: $in: ['impact hub', 'boulder', 'challenges']
 
 
 Meteor.publish 'person', (id)->
