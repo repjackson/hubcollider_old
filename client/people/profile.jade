@@ -5,6 +5,10 @@ template(name='profile')
             .ui.left.icon.input
                 i.user.icon
                 input#username(type='text' value=user.username)
+            .ui.header Your Company
+            .ui.left.icon.input
+                i.building.icon
+                input#company(type='text' value=user.company)
         .ui.segment
             .ui.header Your Tags
             each user.tags

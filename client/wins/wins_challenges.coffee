@@ -1,18 +1,17 @@
 Template.wins_challenges.onCreated ->
     @autorun -> Meteor.subscribe 'usernames'
-
-Template.wins.onCreated ->
     @autorun -> Meteor.subscribe('wins')
 
-Template.wins.helpers
+Template.wins_challenges.helpers
     wins: -> Docs.find( tags: $all: ['impact hub', 'boulder', 'win'] )
+    challenges: -> Docs.find( tags: $all: ['impact hub', 'boulder', 'challenge'] )
     isAuthor: -> @authorId is Meteor.userId()
     vote_upButtonClass: ->
         if not Meteor.userId() then 'disabled basic'
         else if Meteor.userId() in @up_voters then 'green'
         else 'basic'
 
-Template.wins.events
+Template.wins_challenges.events
     'keydown #add_win': (e,t)->
         e.preventDefault
         switch e.which
@@ -22,19 +21,6 @@ Template.wins.events
                     Meteor.call 'add_win', text, (err,res)->
                         t.find('#add_win').value = ''
 
-    'click .delete_doc': ->
-        Meteor.call 'delete_doc', @_id
-
-    'click .vote_up': -> if Meteor.userId() then Meteor.call 'vote_up', @_id
-
-Template.challenges.onCreated ->
-    @autorun -> Meteor.subscribe('challenges')
-
-Template.challenges.helpers
-    challenges: -> Docs.find( tags: $all: ['impact hub', 'boulder', 'challenge'] )
-    isAuthor: -> @authorId is Meteor.userId()
-
-Template.challenges.events
     'keydown #add_challenge': (e,t)->
         e.preventDefault
         switch e.which
@@ -46,3 +32,5 @@ Template.challenges.events
 
     'click .delete_doc': ->
         Meteor.call 'delete_doc', @_id
+
+    'click .vote_up': -> if Meteor.userId() then Meteor.call 'vote_up', @_id

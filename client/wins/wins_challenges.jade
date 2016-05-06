@@ -1,44 +1,39 @@
 template(name='wins_challenges')
     .ui.container
-        +wins
-        +challenges
-
-template(name='wins')
-    .ui.segment
-        .ui.header Wins
-        if currentUser
-            .ui.input
-                input#add_win(type='text' placeholder='Add Win')
-        .ui.divided.list
-            each wins
-                .item
-                    h4.ui.header #{text}
-                    span by #{author.username}
-                    if isAuthor
-                        // .ui.icon.basic.button.editDoc
-                        //     i.blue.pencil.icon
-                        .ui.icon.basic.button.deleteDoc
-                            i.red.trash.icon
-                    else
-                        if currentUser
-                            .ui.huge.icon.button.vote_up(class=vote_upButtonClass)
-                                i.thumbs.up.icon
-
-
-
-template(name='challenges')
-    .ui.segment
-        .ui.header Challenges
-        if currentUser
-            .ui.input
-                input#add_challenge(type='text' placeholder='Add Challenge')
-        .ui.divided.list
-            each challenges
-                .item
-                    h4.ui.header #{text}
-                    span by #{author.username}
-                    if isAuthor
-                        // .ui.icon.basic.button.editDoc
-                        //     i.blue.pencil.icon
-                        .ui.icon.basic.button.deleteDoc
-                            i.red.trash.icon
+        .ui.segment
+            .ui.header Wins
+            if currentUser
+                .ui.input
+                    input#add_win(type='text' placeholder='Add Win')
+            .ui.divided.list
+                each wins
+                    .item
+                        h4.ui.header #{text}
+                        span by #{author.username}
+                        if isAuthor
+                            // .ui.icon.basic.button.editDoc
+                            //     i.blue.pencil.icon
+                            .ui.icon.basic.button.delete_doc
+                                i.red.trash.icon
+                        else
+                            if currentUser
+                                .ui.icon.button.vote_up(class=vote_upButtonClass)
+                                    i.thumbs.up.icon
+            .ui.header Challenges
+            if currentUser
+                .ui.input
+                    input#add_challenge(type='text' placeholder='Add Challenge')
+            .ui.divided.list
+                each challenges
+                    .item
+                        h4.ui.header #{text}
+                        span by #{author.username}
+                        if isAuthor
+                            // .ui.icon.basic.button.editDoc
+                            //     i.blue.pencil.icon
+                            .ui.icon.basic.button.delete_doc
+                                i.red.trash.icon
+                        else
+                            if currentUser
+                                .ui.icon.button.vote_up(class=vote_upButtonClass)
+                                    i.thumbs.up.icon

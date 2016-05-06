@@ -6,6 +6,15 @@
 @Eventtags = new Meteor.Collection 'event_tags'
 @Docs = new Meteor.Collection 'docs'
 
+Docs.before.insert (userId, doc)->
+    doc.up_voters = [userId]
+    doc.down_voters = []
+    doc.timestamp = Date.now()
+    doc.authorId = Meteor.userId()
+    doc.username = Meteor.user().username
+    doc.points = 1
+    return
+
 
 Messages.helpers
     author: -> Meteor.users.findOne @authorId
@@ -74,17 +83,17 @@ Meteor.methods
             hostId: Meteor.userId()
             attendeeIds: [Meteor.userId()]
 
-    add_win: (text)->
+    add_win: (body)->
         Docs.insert
             tags: ['impact hub', 'boulder', 'win']
-            text: text
+            body: body
             authorId: Meteor.userId()
 
 
-    add_challenge: (text)->
+    add_challenge: (body)->
         Docs.insert
             tags: ['impact hub', 'boulder', 'challenge']
-            text: text
+            body: body
             authorId: Meteor.userId()
 
 
