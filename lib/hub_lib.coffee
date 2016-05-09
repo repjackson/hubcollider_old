@@ -15,6 +15,9 @@ Docs.before.insert (userId, doc)->
     doc.points = 1
     return
 
+Docs.after.update ((userId, doc, fieldNames, modifier, options) ->
+    doc.tagCount = doc.tags.length
+), fetchPrevious: true
 
 Messages.helpers
     author: -> Meteor.users.findOne @authorId
@@ -226,7 +229,7 @@ AccountsTemplates.configureRoute 'verifyEmail'
 FlowRouter.route '/', action: (params) ->
     BlazeLayout.render 'layout',
         nav: 'nav'
-        cloud: 'cloud'
+        # cloud: 'cloud'
         main: 'people'
 
 FlowRouter.route '/profile', action: (params) ->

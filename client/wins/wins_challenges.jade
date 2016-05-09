@@ -8,7 +8,7 @@ template(name='wins_challenges')
             .ui.divided.list
                 each wins
                     .item
-                        h4.ui.header #{text}
+                        h4.ui.header #{body}
                         span by #{author.username}
                         if isAuthor
                             // .ui.icon.basic.button.editDoc
@@ -26,7 +26,7 @@ template(name='wins_challenges')
             .ui.divided.list
                 each challenges
                     .item
-                        h4.ui.header #{text}
+                        h4.ui.header #{body}
                         span by #{author.username}
                         if isAuthor
                             // .ui.icon.basic.button.editDoc

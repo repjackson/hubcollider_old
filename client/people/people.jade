@@ -1,22 +1,25 @@
 template(name='people')
     .ui.container
-        each people
-            +person
+        +profile
+        +cloud
+        .ui.cards
+            each people
+                +person
 
 
 template(name='person')
-    .ui.fluid.card
+    .ui.card
         .content
             .header
                 i.user.icon
                 |#{username}
                 if isUser
                     |(you)
-                if currentUser
-                    unless isUser
-                        .ui.small.basic.compact.button.converseWithUser
-                            i.comment.icon
-                            |Converse
+                // if currentUser
+                //     unless isUser
+                //         .ui.small.basic.compact.button.converseWithUser
+                //             i.comment.icon
+                //             |Converse
             .description
                 // h5.ui.header #{username}'s tags
                 each tags

@@ -1,10 +1,10 @@
 Template.people.onCreated ->
     @autorun -> Meteor.subscribe('people', selectedtags.array())
-    @autorun -> Meteor.subscribe('me')
+    # @autorun -> Meteor.subscribe('me')
 
 Template.people.helpers
-    # people: -> Meteor.users.find({ _id: $ne: Meteor.userId() })
-    people: -> Meteor.users.find()
+    people: -> Meteor.users.find({ _id: $ne: Meteor.userId() })
+    # people: -> Meteor.users.find()
 
 
 Template.person.onCreated ->
@@ -16,14 +16,11 @@ Template.person.onCreated ->
 Template.person.helpers
     isUser: -> @_id is Meteor.userId()
 
-    tagClass: ->
-        if @valueOf() in selectedtags.array() then 'secondary' else 'basic'
+    tagClass: -> if @valueOf() in selectedtags.array() then 'primary' else 'basic'
 
-    matchedtags: ->
-        _.intersection @tags, Meteor.user().tags
+    matchedtags: -> _.intersection @tags, Meteor.user().tags
 
-    conversationMessages: ->
-        Messages.find()
+    conversationMessages: -> Messages.find()
 
 
 Template.person.events
