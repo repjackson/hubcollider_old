@@ -1,6 +1,7 @@
 template(name='people')
     .ui.container
-        +profile
+        if currentUser
+            +profile
         +cloud
         .ui.cards
             each people

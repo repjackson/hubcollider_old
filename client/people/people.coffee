@@ -16,20 +16,20 @@ Template.person.onCreated ->
 Template.person.helpers
     isUser: -> @_id is Meteor.userId()
 
-    tagClass: -> if @valueOf() in selectedtags.array() then 'primary' else 'basic'
+    tagClass: -> if @valueOf() in selectedtags.array() then 'active' else 'basic'
 
     matchedtags: -> _.intersection @tags, Meteor.user().tags
 
-    conversationMessages: -> Messages.find()
+    # conversationMessages: -> Messages.find()
 
 
 Template.person.events
     'click .tag': ->
         if @valueOf() in selectedtags.array() then selectedtags.remove @valueOf() else selectedtags.push @valueOf()
 
-    'click .converseWithUser': ->
-        intersection = _.intersection @tags, Meteor.user().tags
-        Meteor.call 'create_conversation', intersection, @_id, (err, res)->
-            FlowRouter.go '/conversations'
-            selectedConversationTags.clear()
-            selectedConversationTags.push(tag) for tag in intersection
+    # 'click .converseWithUser': ->
+    #     intersection = _.intersection @tags, Meteor.user().tags
+    #     Meteor.call 'create_conversation', intersection, @_id, (err, res)->
+    #         FlowRouter.go '/conversations'
+    #         selectedConversationTags.clear()
+    #         selectedConversationTags.push(tag) for tag in intersection

@@ -100,10 +100,10 @@ Template.profile.events
                 if username.length > 0
                     Meteor.call 'update_username', username, (err,res)->
                         if err
-                            alert 'username exists'
+                            alert 'Username exists.'
                             $('#username').val(Meteor.user().username)
-
-                        # alert "updated username to #{username}"
+                        else
+                            alert "Updated username to #{username}."
 
     'click .tag': ->
         tag = @valueOf()

@@ -56,7 +56,7 @@ Meteor.publish 'received_messages', ->
 Meteor.publish 'people', (selectedtags)->
     self = @
     match = {}
-    if selectedtags and selectedtags.length > 0 then match.tags = $all: selectedtags
+    if selectedtags.length > 0 then match.tags = $all: selectedtags
 
     Meteor.users.find match,
         fields:
@@ -92,8 +92,8 @@ Meteor.publish 'events', (selectedtags)->
 Meteor.publish 'people_tags', (selectedtags)->
     self = @
     match = {}
-    if selectedtags.length > 0 then match.tags = $all: selectedtags
-    # match.authorId = $ne: @userId
+    if selectedtags?.length > 0 then match.tags = $all: selectedtags
+    match._id = $ne: @userId
 
     tagCloud = Meteor.users.aggregate [
         { $match: match }
